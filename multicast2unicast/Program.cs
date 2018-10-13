@@ -53,7 +53,7 @@ namespace multicast2unicast
 
                     recieveBytes(_rtp.RTP_process(1));
                     /*
-                    if (_rtp.RTPOK == 0)
+                    if (_rtp.RTPOK == 0)s
                     {
                         Console.WriteLine(_rtp.buf[0]);
                     }
