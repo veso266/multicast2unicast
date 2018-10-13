@@ -52,6 +52,7 @@ namespace multicast2unicast
                     //_rtp.RTP_check();
 
                     recieveBytes(_rtp.RTP_process(1));
+                    Console.WriteLine("Ned DELA");
                     /*
                     if (_rtp.RTPOK == 0)s
                     {
