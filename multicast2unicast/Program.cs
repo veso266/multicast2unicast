@@ -5,6 +5,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Cinegy.TsDecoder.TransportStream;
+
 
 namespace multicast2unicast
 {
@@ -43,24 +45,39 @@ namespace multicast2unicast
             {
                 while (!done)
                 {
-                    byte[] bytes = listener.Receive(ref inPoint);
+                    //byte[] bytes = listener.Receive(ref inPoint);
+                    data = listener.Receive(ref inPoint);
                     //Console.WriteLine("Received Multicast from  {0} : length {1}\n", listenAddress.ToString(), bytes.Length);
                     //this.send(bytes);
                     //recieveBytes(bytes);
                     //Lets get to buisness now
-                    rtp _rtp = new rtp(bytes, bytes.Length);
-                    //_rtp.RTP_check();
+                    rtp _rtp = new rtp(data, data.Length);
+                    
+                    if (_rtp.RTP_verify())
+                    {
+                        //_rtp.RTP_check();
+                        byte[] RTPPayload = _rtp.RTP_process();
 
-                    recieveBytes(_rtp.RTP_process(1));
-                    Console.WriteLine("Ned DELA");
+                        TCPServer _tcp = new TCPServer("192.168.88.12", 1234, RTPPayload);
+
+
+
+
+
+                        //Console.WriteLine("RTP Packet Length: " + bytes.Length);
+                        //Console.WriteLine("RTP Payload Length: " + RTPPayload.Length);
+
+                        //Console.WriteLine("BreakMe");
+                    }
+
+                    //recieveBytes(_rtp.RTP_process(1));
+                    //Console.WriteLine("Ned DELA");
                     /*
                     if (_rtp.RTPOK == 0)s
                     {
                         Console.WriteLine(_rtp.buf[0]);
                     }
                     */
-
-
 
 
                     //Lets get to buisness now
@@ -92,7 +109,7 @@ namespace multicast2unicast
         {
             Program _Program = new Program();
             //rtp _rtp = new rtp();
-            MulticastListen("232.2.1.41", 5002, "192.168.88.12"); //SLO 3 (udp)
+            //MulticastListen("232.2.1.41", 5002, "192.168.88.12"); //SLO 3 (udp)
             MulticastListen("232.2.201.53", 5003, "192.168.88.12"); //SLO 1 (rtp)
             _Program.loop(); //To recieve packest continuously
             //_rtp.RTP_check(_Program.data, _Program.data.Length);
