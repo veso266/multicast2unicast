@@ -15,7 +15,7 @@ namespace multicast2unicast
         static protected UdpClient listener;
         static protected IPAddress localAddress;
         static protected IPAddress listenAddress;
-        static protected int listenPort = 5002;
+        static protected int listenPort;
 
         static protected IPEndPoint inPoint;
 
