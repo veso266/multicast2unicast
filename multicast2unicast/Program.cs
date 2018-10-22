@@ -45,13 +45,10 @@ namespace multicast2unicast
             {
                 while (!done)
                 {
-                    //byte[] bytes = listener.Receive(ref inPoint);
-                    data = listener.Receive(ref inPoint);
+                    byte[] bytes = listener.Receive(ref inPoint);
                     //Console.WriteLine("Received Multicast from  {0} : length {1}\n", listenAddress.ToString(), bytes.Length);
-                    //this.send(bytes);
-                    //recieveBytes(bytes);
                     //Lets get to buisness now
-                    rtp _rtp = new rtp(data, data.Length);
+                    rtp _rtp = new rtp(bytes, bytes.Length);
                     
                     if (_rtp.RTP_verify())
                     {
@@ -66,20 +63,7 @@ namespace multicast2unicast
 
                         //Console.WriteLine("RTP Packet Length: " + bytes.Length);
                         //Console.WriteLine("RTP Payload Length: " + RTPPayload.Length);
-
-                        //Console.WriteLine("BreakMe");
                     }
-
-                    //recieveBytes(_rtp.RTP_process(1));
-                    //Console.WriteLine("Ned DELA");
-                    /*
-                    if (_rtp.RTPOK == 0)s
-                    {
-                        Console.WriteLine(_rtp.buf[0]);
-                    }
-                    */
-
-
                     //Lets get to buisness now
 
 
@@ -98,11 +82,6 @@ namespace multicast2unicast
                 listener.Close();
                 //sender.Close();
             }
-        }
-
-        void recieveBytes(byte[] data2fill)
-        {
-            data = data2fill;
         }
 
         static void Main(string[] args)
